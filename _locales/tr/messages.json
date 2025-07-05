@@ -1,0 +1,17 @@
+{
+  "extension_name": {
+    "message": "Zen Volume Manager"
+  },
+  "extension_description": {
+    "message": "Host bazlı ses seviyesi yöneticisi."
+  },
+  "add_site": {
+    "message": "+ Bu siteyi ekle"
+  },
+  "entry_tooltip": {
+    "message": "Sesi ayarlamak için tıkla veya kaldırmak için sağ tıkla"
+  },
+  "remove_site": {
+    "message": "Kaldır"
+  }
+}

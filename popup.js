@@ -2,9 +2,12 @@ const browserAPI = typeof browser !== "undefined" ? browser : chrome;
 
 const siteList = document.getElementById("site-list");
 const addCurrentBtn = document.getElementById("add-current");
-const addCustomBtn = document.getElementById("add-custom");
 
-document.addEventListener("DOMContentLoaded", loadSites);
+document.addEventListener("DOMContentLoaded", () => {
+  // i18n metni butona uygula
+  addCurrentBtn.textContent = browser.i18n.getMessage("add_site");
+  loadSites();
+});
 
 addCurrentBtn.addEventListener("click", async () => {
   const [tab] = await browserAPI.tabs.query({ active: true, currentWindow: true });
@@ -12,61 +15,6 @@ addCurrentBtn.addEventListener("click", async () => {
   await saveSiteVolume(hostname, 1.0);
   loadSites();
 });
-
-addCustomBtn.addEventListener("click", () => {
-  const modal = document.getElementById("url-modal");
-  const input = document.getElementById("url-input");
-  const ok = document.getElementById("url-ok");
-  const cancel = document.getElementById("url-cancel");
-
-  modal.style.display = "flex";
-  input.value = "";
-  input.focus();
-
-  const closeModal = () => {
-    modal.style.display = "none";
-    ok.onclick = null;
-    cancel.onclick = null;
-    document.removeEventListener("keydown", escClose);
-    modal.removeEventListener("click", outsideClick);
-  };
-
-  const escClose = (e) => {
-    if (e.key === "Escape") closeModal();
-  };
-
-  const outsideClick = (e) => {
-    if (e.target === modal) closeModal();
-  };
-
-  cancel.onclick = closeModal;
-
-  ok.onclick = async () => {
-    const hostname = input.value.trim();
-    if (hostname) {
-      await saveSiteVolume(hostname, 1.0);
-      loadSites(); // site eklendikten sonra hemen görünür
-    }
-    closeModal();
-	
-  };
-  
-  input.addEventListener("keydown", async (e) => {
-  if (e.key === "Enter") {
-    const hostname = input.value.trim();
-    if (hostname) {
-      await saveSiteVolume(hostname, 1.0);
-      loadSites();
-    }
-    closeModal();
-  }
-});
-
-  document.addEventListener("keydown", escClose);
-  modal.addEventListener("click", outsideClick);
-});
-
-
 
 async function saveSiteVolume(hostname, volume) {
   const stored = await browserAPI.storage.local.get("sites");
@@ -96,10 +44,9 @@ async function loadSites() {
     const row = document.createElement("div");
     row.className = "site-entry";
 
-	const icon = document.createElement("img");
-	icon.src = `https://${hostname}/favicon.ico`;
-	icon.onerror = () => icon.src = "icons/icon48.png";
-
+    const icon = document.createElement("img");
+    icon.src = `https://${hostname}/favicon.ico`;
+    icon.onerror = () => icon.src = "icons/icon48.png";
 
     const label = document.createElement("span");
     label.textContent = hostname;
@@ -144,7 +91,7 @@ async function loadSites() {
     clickArea.style.right = "0";
     clickArea.style.bottom = "0";
     clickArea.style.cursor = "pointer";
-    clickArea.title = "Tıklayınca sesi ayarla, sağ tıkla sil";
+    clickArea.title = browser.i18n.getMessage("entry_tooltip");
 
     clickArea.addEventListener("click", () => {
       const isOpen = sliderWrap.style.maxHeight !== "0px";
@@ -153,34 +100,24 @@ async function loadSites() {
     });
 
     clickArea.addEventListener("contextmenu", (e) => {
-     e.preventDefault();
+      e.preventDefault();
+      const oldMenu = document.querySelector(".context-menu");
+      if (oldMenu) oldMenu.remove();
 
-     // Var olan menü varsa kaldır
-     const oldMenu = document.querySelector(".context-menu");
-     if (oldMenu) oldMenu.remove();
-
-     // Yeni menü öğesi
-     const menu = document.createElement("div");
-     menu.className = "context-menu";
-     menu.textContent = "Kaldır";
-     menu.style.top = `${e.clientY}px`;
+      const menu = document.createElement("div");
+      menu.className = "context-menu";
+      menu.textContent = browser.i18n.getMessage("remove_site");
+      menu.style.top = `${e.clientY}px`;
       menu.style.left = `${e.clientX}px`;
 
-      // Tıklanınca siteyi sil
-     menu.addEventListener("click", () => {
-      removeSite(hostname);
-      menu.remove();
+      menu.addEventListener("click", () => {
+        removeSite(hostname);
+        menu.remove();
+      });
+
+      document.body.appendChild(menu);
+      setTimeout(() => menu.remove(), 2000);
     });
-
-  // Sayfaya ekle
-  document.body.appendChild(menu);
-
-  // Otomatik kapanma
-  setTimeout(() => {
-    menu.remove();
-  }, 2000);
-});
-
 
     row.style.position = "relative";
     row.appendChild(clickArea);

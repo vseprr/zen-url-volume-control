@@ -1,0 +1,17 @@
+{
+  "extension_name": {
+    "message": "Zen Volume Manager"
+  },
+  "extension_description": {
+    "message": "Per-site volume manager based on host."
+  },
+  "add_site": {
+    "message": "+ Add this site"
+  },
+  "entry_tooltip": {
+    "message": "Click to set volume or right-click to remove"
+  },
+  "remove_site": {
+    "message": "Remove"
+  }
+}
