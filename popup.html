@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Volume Control</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      width: 300px;
+      max-height: 400px;
+      overflow-y: auto;
+      background: #202124;
+      color: #eee;
+    }
+
+    #controls {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px;
+      border-bottom: 1px solid #444;
+    }
+
+    button {
+      background-color: #303134;
+      border: none;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .site-entry {
+      display: flex;
+      align-items: center;
+      padding: 6px 8px;
+      border-bottom: 1px solid #333;
+      position: relative;
+    }
+
+    .site-entry img {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+    }
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      margin-top: 4px;
+      gap: 8px;
+      overflow: hidden;
+      transition: max-height 0.2s ease, opacity 0.2s ease;
+    }
+
+    .slider-container input[type=range] {
+      flex: 1;
+    }
+
+    .site-block {
+      padding: 6px 12px;
+    }
+
+    .context-menu {
+      position: absolute;
+      background-color: #2b2b2b;
+      border: 1px solid #555;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 13px;
+      color: #fff;
+      z-index: 9999;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .context-menu:hover {
+      background-color: #444;
+    }
+
+
+
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <button id="add-current">+ Bu siteyi ekle</button>
+  </div>
+  <div id="site-list"></div>
+
+  <!-- URL GİRİŞ MODALI -->
+  <div id="url-modal" style="display:none;">
+    <div id="url-modal-content">
+      <p>Bir domain (örnek: <i>example.com</i>) girin:</p>
+      <input type="text" id="url-input" placeholder="örnek: example.com">
+      <div id="url-buttons">
+        <button id="url-cancel">İptal</button>
+        <button id="url-ok">Ekle</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

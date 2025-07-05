@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "Zen Volume Manager",
+  "version": "1.0",
+  "description": "Host bazlı ses seviyesi yöneticisi.",
+  "permissions": [
+    "tabs",
+    "storage",
+    "<all_urls>"
+  ],
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "icons/icon48.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "all_frames": true
+    }
+  ],
+  "icons": {
+    "48": "icons/icon48.png"
+  }
+}
